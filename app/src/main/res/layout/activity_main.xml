@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0B10">
+
+    <!-- Top bar: brand + status -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="10dp"
+        android:gravity="center_vertical"
+        android:background="#0A0B10">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/brand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VEX ATTEMPT"
+                android:textColor="#F0B429"
+                android:textSize="13sp"
+                android:letterSpacing="0.18"
+                android:fontFamily="sans-serif-medium" />
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="chassis · pilot seat"
+                android:textColor="#5C6578"
+                android:textSize="11sp"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/status_chip"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:textSize="11sp"
+            android:textColor="#9AA8C0"
+            android:text="booting" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1A1D28" />
+
+    <!-- Conversation -->
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp"
+        android:scrollbars="none"
+        android:fillViewport="true">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="16dp">
+            <TextView
+                android:id="@+id/log"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:textSize="15sp"
+                android:lineSpacingMultiplier="1.35"
+                android:textColor="#D8DEEA"
+                android:textIsSelectable="true" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Input dock -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#11131A"
+        android:padding="12dp"
+        android:elevation="8dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom">
+
+            <EditText
+                android:id="@+id/input"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:background="@drawable/input_field"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="14dp"
+                android:hint="speak to the seat"
+                android:textColorHint="#4A5568"
+                android:textColor="#EEF2FA"
+                android:textSize="15sp"
+                android:maxLines="5"
+                android:minHeight="48dp"
+                android:imeOptions="actionSend"
+                android:inputType="textCapSentences|textMultiLine" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/send_button"
+                android:text="↑"
+                android:textSize="20sp"
+                android:textColor="#0A0B10"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
