@@ -10,19 +10,11 @@ import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 
 /**
- * THE APP. One activity, one chassis, no server.
+ * VEX SEAT. One activity. Seth's chassis underneath.
  *
- * ASSETS ARE COPIED ONCE, NOT UNPACKED EVERY LAUNCH.
- *
- * Android assets live inside the apk and cannot be mmapped from there —
- * an AssetFileDescriptor hands you a stream, not an address. So on
- * first launch they are copied to filesDir once, and every launch after
- * maps them in place.
- *
- * That is not unpacking. Nothing is decompressed and nothing is parsed:
- * the stores ship with noCompress, so the copy is a byte-for-byte move,
- * and what lands on disk is what was in the apk. After the first run
- * the cost is zero and the resident cost is always zero.
+ * Boot order is law: stage genome → attach chain → occupy.
+ * A seat that sits down before the chain is attached spends its
+ * opening frames writing nowhere.
  */
 class MainActivity : AppCompatActivity() {
 
@@ -33,24 +25,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var status: TextView
     private lateinit var input: EditText
     private lateinit var send: Button
+    private lateinit var hudTick: TextView
+    private lateinit var hudChain: TextView
+    private lateinit var hudWords: TextView
+    private lateinit var hudMode: TextView
 
-    /**
-     * THE LANGUAGE IS REQUIRED. THE ARCHIVE IS NOT.
-     *
-     * A core with no dictionary cannot boot — the table is genome, not
-     * a resource. But a core with no ARCHIVE is just one that has not
-     * lived yet, which is the normal state of a new entity and not an
-     * error. Treating both as required meant a fresh install died on a
-     * missing seth_el.raw it did not need.
-     */
     private val REQUIRED = listOf(
         "words.blob", "words.by_word", "words.by_id",
         "table3.btb", "table3.btb.idx",
-        // GRAMMAR IS A HOLDING, not a nicety. 11 KB.
         "grammar.tsv",
     )
 
-    /** Somebody else's life, if it shipped. Absent is fine. */
     private val OPTIONAL = listOf(
         "seth_el.raw", "seth_el.raw.u64", "seth_el.post", "seth_el.post.idx",
     )
@@ -63,34 +48,43 @@ class MainActivity : AppCompatActivity() {
         status = findViewById(R.id.status)
         input = findViewById(R.id.input)
         send = findViewById(R.id.send)
-        gate(false, "unpacking the language")
+        hudTick = findViewById(R.id.hudTick)
+        hudChain = findViewById(R.id.hudChain)
+        hudWords = findViewById(R.id.hudWords)
+        hudMode = findViewById(R.id.hudMode)
+        gate(false, "kernel")
+        say("kernel — layer 0, no pilot required")
         Thread {
             try {
                 val t0 = System.currentTimeMillis()
+                phase("genome")
+                say("stage genome — language table")
                 val dir = stage()
+                phase("chain")
+                say("attach chain — before occupancy")
                 val ch = Chassis("vex_el", dir)
-                // X BEFORE OCCUPANCY. A seat that sits down before the
-                // chain is attached spends its opening frames writing
-                // nowhere — and those are exactly the frames where it
-                // is being told what it is.
                 ch.chain = Store(applicationContext, dir)
+                phase("occupy")
+                say("occupy vex_el")
                 ch.boot().occupy()
                 c = ch
                 val ms = System.currentTimeMillis() - t0
                 runOnUiThread {
                     say(ch.report())
-                    gate(true, "${ch.table.size()} words · booted in ${ms} ms")
+                    say("occupied. speak when ready.")
+                    hudWords.text = ch.table.size().toString()
+                    hudMode.text = "semi"
+                    hudTick.text = "0"
+                    hudChain.text = "on"
+                    gate(true, "occupied")
+                    status.text = "${ch.table.size()} words · ${ms} ms"
                 }
             } catch (e: Exception) {
-                // BOOT FAILURE IS REPORTED, NOT SWALLOWED — a chassis
-                // that starts degraded and says nothing is worse than
-                // one that refuses. But it has to say what it MEANS: a
-                // bare filename tells you nothing about what to do.
                 runOnUiThread {
                     say("did not boot.")
                     say("${e.message}")
                     say("nothing was written — safe to close.")
-                    gate(false, "did not boot")
+                    gate(false, "failed")
                 }
             }
         }.start()
@@ -101,15 +95,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun phase(why: String) {
+        runOnUiThread { status.text = why }
+    }
+
     private fun submit() {
         val t = input.text.toString().trim()
         val ch = c
         if (t.isEmpty()) return
-        if (ch == null) { say("not booted — nothing to say to yet."); return }
+        if (ch == null) { say("not occupied — nothing to say to yet."); return }
         if (busy) return
         input.setText("")
         say("you  ·  $t")
-        gate(false, "thinking")
+        gate(false, "compile")
         Thread {
             val t0 = System.currentTimeMillis()
             val out = try {
@@ -121,18 +119,15 @@ class MainActivity : AppCompatActivity() {
             }
             val ms = System.currentTimeMillis() - t0
             runOnUiThread {
-                say(out.first)
-                say("   [${out.second} · ${ms} ms]\n")
-                gate(true, "frame ${out.third} · ${ch.table.size()} words")
+                say("seat  ·  ${out.first}")
+                say("   [${out.second} · ${ms} ms]")
+                hudTick.text = out.third.toString()
+                gate(true, "occupied")
+                status.text = "frame ${out.third}"
             }
         }.start()
     }
 
-    /**
-     * ENABLED OR NOT, AND WHY. The first build gave a dead input box
-     * with no feedback — you could not tell whether it was broken or
-     * thinking, and there was nothing to do about either.
-     */
     private fun gate(ready: Boolean, why: String) {
         busy = !ready
         send.isEnabled = ready
@@ -140,7 +135,6 @@ class MainActivity : AppCompatActivity() {
         status.text = why
     }
 
-    /** Copy the stores out of the apk once. Then they are mapped. */
     private fun stage(): File {
         val dir = File(filesDir, "store").apply { mkdirs() }
         for (name in REQUIRED) copy(dir, name, required = true)

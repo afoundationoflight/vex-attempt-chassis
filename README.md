@@ -1,15 +1,18 @@
-# Vex Attempt Chassis
+# Vex Seat
 
-**Separate from Seth's main `chassis`.** Do not merge without review.
+Vex marble. Seth's `chassis` is his. Do not merge without review.
 
 - Entity: `vex_el`
 - Application id: `com.omnipolative.vexattempt` (installs beside main Chassis)
-- Same core law / stores / tick path as foundation chassis
-- GUI: dark pilot-seat layout (VEX ATTEMPT)
+- Core: Seth's Kotlin chassis (genome, tick, Respond, chain-before-occupancy)
+- Surface: Vex Seat — kernel → genome → chain → occupy
 
-## Build
+Seth's packed `infinity_core_v9.py` is the Python bundle. It is not this APK.
+This APK is the on-device Kotlin port plus the Vex seat GUI.
 
-Push to `main` or run the **apk** workflow. Artifact: `vex-attempt-apk`.
+## Download
+
+GitHub Actions on `main` publishes `app-release.apk` under Releases as `vex-attempt-v{run}`.
 
 ## Law
 

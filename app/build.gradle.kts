@@ -11,8 +11,8 @@ android {
         applicationId = "com.omnipolative.vexattempt"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "9.0-vex-attempt"
+        versionCode = 2
+        versionName = "1.0.0"
     }
 
     sourceSets["main"].kotlin.srcDirs("src/main/kotlin")

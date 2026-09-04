@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="#0A0B10">
 
-    <!-- Top bar: brand + status -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -13,8 +12,7 @@
         android:paddingHorizontal="16dp"
         android:paddingTop="18dp"
         android:paddingBottom="10dp"
-        android:gravity="center_vertical"
-        android:background="#0A0B10">
+        android:gravity="center_vertical">
 
         <LinearLayout
             android:orientation="vertical"
@@ -25,17 +23,16 @@
                 android:id="@+id/brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="VEX ATTEMPT"
-                android:textColor="#F0B429"
-                android:textSize="13sp"
-                android:letterSpacing="0.18"
-                android:fontFamily="sans-serif-medium" />
+                android:text="Vex Seat"
+                android:textColor="#E8EAEE"
+                android:textSize="20sp"
+                android:fontFamily="serif" />
             <TextView
                 android:id="@+id/subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="chassis · pilot seat"
-                android:textColor="#5C6578"
+                android:text="pilot · occupy · chain"
+                android:textColor="#8B919C"
                 android:textSize="11sp"
                 android:layout_marginTop="2dp" />
         </LinearLayout>
@@ -48,16 +45,47 @@
             android:paddingHorizontal="12dp"
             android:paddingVertical="6dp"
             android:textSize="11sp"
-            android:textColor="#9AA8C0"
-            android:text="booting" />
+            android:fontFamily="monospace"
+            android:textColor="#8B919C"
+            android:text="boot" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#1A1D28" />
+        android:background="#262A34" />
 
-    <!-- Conversation -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#262A34">
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#0A0B10" android:padding="10dp" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TICK" android:textSize="10sp" android:textColor="#5C6270" android:letterSpacing="0.12" />
+            <TextView android:id="@+id/hudTick" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:fontFamily="monospace" android:textSize="12sp" android:textColor="#E8EAEE" />
+        </LinearLayout>
+        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#262A34" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#0A0B10" android:padding="10dp" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CHAIN" android:textSize="10sp" android:textColor="#5C6270" android:letterSpacing="0.12" />
+            <TextView android:id="@+id/hudChain" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:fontFamily="monospace" android:textSize="12sp" android:textColor="#E8EAEE" />
+        </LinearLayout>
+        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#262A34" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#0A0B10" android:padding="10dp" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WORDS" android:textSize="10sp" android:textColor="#5C6270" android:letterSpacing="0.12" />
+            <TextView android:id="@+id/hudWords" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:fontFamily="monospace" android:textSize="12sp" android:textColor="#E8EAEE" />
+        </LinearLayout>
+        <View android:layout_width="1dp" android:layout_height="match_parent" android:background="#262A34" />
+        <LinearLayout android:orientation="vertical" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:background="#0A0B10" android:padding="10dp" android:gravity="center">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MODE" android:textSize="10sp" android:textColor="#5C6270" android:letterSpacing="0.12" />
+            <TextView android:id="@+id/hudMode" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="—" android:fontFamily="monospace" android:textSize="12sp" android:textColor="#E8EAEE" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#262A34" />
+
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
@@ -66,38 +94,29 @@
         android:paddingHorizontal="16dp"
         android:scrollbars="none"
         android:fillViewport="true">
-        <LinearLayout
-            android:orientation="vertical"
+        <TextView
+            android:id="@+id/log"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp">
-            <TextView
-                android:id="@+id/log"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:textSize="15sp"
-                android:lineSpacingMultiplier="1.35"
-                android:textColor="#D8DEEA"
-                android:textIsSelectable="true" />
-        </LinearLayout>
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:lineSpacingMultiplier="1.35"
+            android:textColor="#E8EAEE"
+            android:textIsSelectable="true"
+            android:paddingVertical="16dp" />
     </ScrollView>
 
-    <!-- Input dock -->
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#11131A"
-        android:padding="12dp"
-        android:elevation="8dp">
-
+        android:background="#12141A"
+        android:padding="12dp">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom">
-
             <EditText
                 android:id="@+id/input"
                 android:layout_width="0dp"
@@ -107,14 +126,13 @@
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="14dp"
                 android:hint="speak to the seat"
-                android:textColorHint="#4A5568"
-                android:textColor="#EEF2FA"
+                android:textColorHint="#5C6270"
+                android:textColor="#E8EAEE"
                 android:textSize="15sp"
                 android:maxLines="5"
                 android:minHeight="48dp"
                 android:imeOptions="actionSend"
                 android:inputType="textCapSentences|textMultiLine" />
-
             <Button
                 android:id="@+id/send"
                 android:layout_width="52dp"
